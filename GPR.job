@@ -1,0 +1,132 @@
+#BSUB -n 20 -R 'select[nxt] rusage[mem=512] span[ptile=20]' -M 512
+#BSUB -J GPR -o output.%J -L /bin/bash -W 1:30
+##
+##NECESSARY JOB SPECIFICATIONS
+##BSUB -J JobName             # Set the job name to "JobName"
+##BSUB -L /bin/bash           # Uses the bash login shell to initialize the job's execution environment.
+##BSUB -W hh:mm               # Sets job's runtime wall-clock limit in hours:minutes or just minutes (-mm)
+##BSUB -n NNN                 # NNN: total number of cores/jobslots to allocate for the job
+##BSUB -R "select[node-type]" # Select node-type: nxt, mem256gb, gpu, phi, mem1t, mem2t ...
+##BSUB -R "span[ptile=XX]"    # XX:  number of cores/jobslots per node to use. Also, a node selection criterion.
+##BSUB -R "rusage[mem=nnn]"   # Reserves nnn MBs per process/CPU for the job
+##BSUB -M mm                  # Sets the per process enforceable memory limit to nnn MB
+##BSUB -o OUTPUTFILE.%J       # Send stdout and stderr to "OUTPUTFILE.[jobID]"
+#
+# <--- at this point the current working directory is the one you submitted the job from.
+#
+module load intel/2017A       # load Intel software stack 
+export OMP_NESTED=TRUE
+
+export OMP_NUM_THREADS=1
+echo "********No. of threads: 1*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+
+export OMP_NUM_THREADS=2
+echo "********No. of threads: 2*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+
+export OMP_NUM_THREADS=4
+echo "********No. of threads: 4*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+export OMP_NUM_THREADS=8
+echo "********No. of threads: 8*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+export OMP_NUM_THREADS=16
+echo "********No. of threads: 16*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+
+export OMP_NUM_THREADS=20
+echo "********No. of threads: 20*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+
+
+export OMP_NUM_THREADS=32
+echo "********No. of threads: 32*********"
+echo "GRID SIZE=32 (0.5,0.5)"
+./GPR.exe 32 0.5 0.5
+echo "GRID SIZE=50 (0.2,0.9)"
+./GPR.exe 50 0.2 0.9
+echo "GRID SIZE=100 (0.8,0.6)"
+./GPR.exe 100 0.8 0.6
+
+export OMP_NUM_THREADS=1
+echo "********No. of threads: 1*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+export OMP_NUM_THREADS=2
+echo "********No. of threads: 2*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+
+export OMP_NUM_THREADS=4
+echo "********No. of threads: 4*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+
+export OMP_NUM_THREADS=8
+echo "********No. of threads: 8*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+
+export OMP_NUM_THREADS=16
+echo "********No. of threads: 16*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+
+export OMP_NUM_THREADS=20
+echo "********No. of threads: 20*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
+
+export OMP_NUM_THREADS=32
+echo "********No. of threads: 32*********"
+echo "FLOPs for GRID SIZE=50 (0.5,0.5)"
+perf stat -e r532010 ./GPR.exe 50 0.5 0.5
+
